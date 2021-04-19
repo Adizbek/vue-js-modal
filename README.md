@@ -48,11 +48,15 @@ Links: https://github.com/sponsors/euvl, https://www.buymeacoffee.com/yev
 Locally to run the project:
 
 ```javascript
-npx install
+npm install
 ```
 
 ```javascript
 npm run watch
+```
+
+```javascript
+npm run docs:dev
 ```
 
 ## This library is contributor-driven
