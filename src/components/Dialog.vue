@@ -1,6 +1,6 @@
 <template>
   <component
-    :is="$modal.context.componentName"
+    :is="'div'"
     name="dialog"
     height="auto"
     :classes="['vue-dialog', this.params.class]"
@@ -31,7 +31,7 @@
         :key="index"
         v-html="button.title"
         @click.stop="click(index, $event)"
-      >{{ button.title }}</button>
+      ></button>
     </div>
     <div v-else class="vue-dialog-buttons-none" />
   </component>
@@ -52,6 +52,7 @@ export default {
       type: String
     }
   },
+  inject: ['$modal'],
   data() {
     return {
       params: {}

@@ -1,9 +1,16 @@
 import { UNSUPPORTED_ARGUMENT_ERROR } from './utils/errors'
 import { createDivInBody } from './utils'
 import ModalsContainer from './components/ModalsContainer.vue'
+import emitter from 'tiny-emitter/instance'
+import { createApp } from 'vue'
 
-const PluginCore = (Vue, options = {}) => {
-  const subscription = new Vue()
+const PluginCore = (app, options = {}) => {
+  const subscription = {
+    $on: (...args) => emitter.on(...args),
+    $once: (...args) => emitter.once(...args),
+    $off: (...args) => emitter.off(...args),
+    $emit: (...args) => emitter.emit(...args),
+  }
 
   const context = {
     root: null,
@@ -41,10 +48,10 @@ const PluginCore = (Vue, options = {}) => {
 
     const element = createDivInBody()
 
-    new Vue({
+    createApp({
       parent,
       render: h => h(ModalsContainer)
-    }).$mount(element)
+    }).mount(element)
   }
 
   const show = (...args) => {

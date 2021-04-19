@@ -3,14 +3,14 @@ import Dialog from './components/Dialog.vue'
 import PluginCore from './PluginCore'
 
 const Plugin = {
-  install(Vue, options = {}) {
-    if (Vue.prototype.$modal) {
+  install(app, options = {}) {
+    if (app.config.globalProperties.$modal) {
       return
     }
 
-    const plugin = new PluginCore(Vue, options)
+    const plugin = PluginCore(app, options)
 
-    Object.defineProperty(Vue.prototype, '$modal', {
+    Object.defineProperty(app.config.globalProperties, '$modal', {
       get: function() {
         /**
          * The "this" scope is the scope of the component that calls this.$modal
@@ -19,7 +19,7 @@ const Plugin = {
         /**
          * The this.$modal can be called only from inside the vue components so this check is not really needed...
          */
-        if (caller instanceof Vue) {
+        if (caller instanceof app) {
           const root = caller.$root
 
           if (!plugin.context.root) {
@@ -31,16 +31,18 @@ const Plugin = {
       }
     })
 
+    app.provide('$modal', plugin)
+
     /**
      * Sets custom component name (if provided)
      */
-    Vue.component(plugin.context.componentName, Modal)
+    app.component(plugin.context.componentName, Modal)
 
     /**
      * Registration of <Dialog/> component
      */
     if (options.dialog) {
-      Vue.component('VDialog', Dialog)
+      app.component('VDialog', Dialog)
     }
   }
 }

@@ -77,6 +77,7 @@ const TransitionState = {
 
 export default {
   name: 'VueJsModal',
+  inject: ['$modal'],
   props: {
     name: {
       required: true,
@@ -220,13 +221,21 @@ export default {
       viewportWidth: 0
     }
   },
-  created() {
-    this.setInitialSize()
-  },
   /**
    * Sets global listeners
    */
-  beforeMount() {
+  mounted() {
+    this.setInitialSize()
+    this.resizeObserver = new ResizeObserver(entries => {
+      if (entries.length > 0) {
+        const [entry] = entries
+
+        this.modal.renderedHeight = entry.contentRect.height
+      }
+    })
+
+    this.$focusTrap = new FocusTrap()
+
     this.$modal.subscription.$on('toggle', this.onToggle)
 
     window.addEventListener('resize', this.onWindowResize)
@@ -239,7 +248,7 @@ export default {
     if (this.scrollable && !this.isAutoHeight) {
       console.warn(
         `Modal "${this.name}" has scrollable flag set to true ` +
-          `but height is not "auto" (${this.height})`
+        `but height is not "auto" (${this.height})`
       )
     }
 
@@ -247,21 +256,10 @@ export default {
       window.addEventListener('keyup', this.onEscapeKeyUp)
     }
   },
-  mounted() {
-    this.resizeObserver = new ResizeObserver(entries => {
-      if (entries.length > 0) {
-        const [entry] = entries
-
-        this.modal.renderedHeight = entry.contentRect.height
-      }
-    })
-
-    this.$focusTrap = new FocusTrap()
-  },
   /**
    * Removes global listeners
    */
-  beforeDestroy() {
+  beforeUnmount() {
     this.$modal.subscription.$off('toggle', this.onToggle)
 
     window.removeEventListener('resize', this.onWindowResize)

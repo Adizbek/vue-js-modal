@@ -43,6 +43,18 @@ If you notice any bugs or regressings please do not hesitate to report any issue
 
 Links: https://github.com/sponsors/euvl, https://www.buymeacoffee.com/yev
 
+
+## Development
+Locally to run the project:
+
+```javascript
+npx install
+```
+
+```javascript
+npm run watch
+```
+
 ## This library is contributor-driven
 **This library is contributor-driven**. It is not backed by any company, which means that all contributions are voluntary and done by the people who need them. If you need something improved, added, or fixed, please contribute it yourself. Please keep in mind that maintainers volunteer their free time to work on this project and have no obligation to reply on the issues, tailor library for specific use-cases or perform customer support. 
 
