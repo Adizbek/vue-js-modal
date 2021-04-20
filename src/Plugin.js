@@ -19,6 +19,7 @@ const Plugin = {
         /**
          * The this.$modal can be called only from inside the vue components so this check is not really needed...
          */
+        console.log(caller instanceof app)
         if (caller instanceof app) {
           const root = caller.$root
 

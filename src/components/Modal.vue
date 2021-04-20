@@ -494,7 +494,9 @@ export default {
 
     beforeModalTransitionLeave() {
       this.modalTransitionState = TransitionState.Leaving
-      this.resizeObserver.unobserve(this.$refs.modal)
+      if (this.$refs.modal) {
+        this.resizeObserver.unobserve(this.$refs.modal)
+      }
 
       if (this.$focusTrap.enabled()) {
         this.$focusTrap.disable()
@@ -850,6 +852,7 @@ export default {
   width: 100%;
   height: 100vh;
   z-index: 999;
+  pointer-events: none;
 }
 
 .vm--overlay {
@@ -862,6 +865,7 @@ export default {
   background: rgba(0, 0, 0, 0.2);
   /* z-index: 999; */
   opacity: 1;
+  pointer-events: auto;
 }
 
 .vm--container.scrollable {
@@ -879,6 +883,7 @@ export default {
   background-color: white;
   border-radius: 3px;
   box-shadow: 0 20px 60px -2px rgba(27, 33, 58, 0.4);
+  pointer-events: auto;
 }
 
 .vm--container.scrollable .vm--modal {

@@ -6,7 +6,11 @@
 
 <button v-on:click="openModal">Click </button>
 
-<Modal name='test'></Modal>
+<teleport to='body'>
+<Modal name='test'>
+<p>Test modal</p>
+</Modal> 
+</teleport>
 
 
 <script>
